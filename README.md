@@ -34,7 +34,7 @@
 | # | 章节 | 项目 | 状态 | 博客 |
 |---|---|---|---|---|
 | P0 | 第1章 | 观察网络：Wireshark 抓包 + RTT 探测器（rtt_probe.py） | 已完成 | [blog](projects/p00-observe-network/blog.md) |
-| P1 | 第2章 | 手写 HTTP/1.1 Web Server + 客户端 + 反向代理 | 进行中（服务器✅） | [blog](projects/p01-http-server/blog.md) |
+| P1 | 第2章 | 手写 HTTP/1.1 Web Server + 客户端 + 反向代理 | 已完成 | [blog](projects/p01-http-server/blog.md) |
 | P2 | 第2章 | 手写 DNS 递归解析器（带缓存） | 未开始 | - |
 | P3 | 第2章 | SMTP 邮件发送器（轻量） | 未开始 | - |
 | P4 | 第3章 | 在 UDP 上从零造可靠传输：停等 → GBN → SR | 未开始 | - |

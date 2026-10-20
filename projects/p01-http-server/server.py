@@ -27,20 +27,24 @@ def send_response(conn, status_line, body, content_type="text/html; charset=utf-
 
 while True:
     conn, addr = srv.accept()                      # 开门接客（握手完成）
-    req = conn.recv(65535).decode("utf-8", errors="replace")
-    if not req:
-        conn.close()
-        continue
-    first_line = req.splitlines()[0]               # 形如 "GET /about HTTP/1.1"
-    method, path, _ = first_line.split(" ", 2)
-    print(f"客人要: {method} {path}")
+    conn.settimeout(3)                             # 防卡死：客人光坐着不点菜就请出去
+    try:
+        req = conn.recv(65535).decode("utf-8", errors="replace")
+        if not req:
+            conn.close()
+            continue
+        first_line = req.splitlines()[0]           # 形如 "GET /about HTTP/1.1"
+        method, path, _ = first_line.split(" ", 2)
+        print(f"客人要: {method} {path}")
 
-    if path == "/":
-        send_response(conn, "HTTP/1.1 200 OK",
-                      "<h1>欢迎光临</h1><p>这是首页，我是你亲手养的服务器</p>")
-    elif path == "/about":
-        send_response(conn, "HTTP/1.1 200 OK",
-                      "<h1>关于本店</h1><p>P1 练习店，店主：AeternaCursor</p>")
-    else:
-        send_response(conn, "HTTP/1.1 404 Not Found",
-                      "<h1>404</h1><p>本店没有这道菜</p>")
+        if path == "/":
+            send_response(conn, "HTTP/1.1 200 OK",
+                          "<h1>欢迎光临</h1><p>这是首页，我是你亲手养的服务器</p>")
+        elif path == "/about":
+            send_response(conn, "HTTP/1.1 200 OK",
+                          "<h1>关于本店</h1><p>P1 练习店，店主：AeternaCursor</p>")
+        else:
+            send_response(conn, "HTTP/1.1 404 Not Found",
+                          "<h1>404</h1><p>本店没有这道菜</p>")
+    except OSError:
+        conn.close()                               # 这单砸了就砸了，店接着开
